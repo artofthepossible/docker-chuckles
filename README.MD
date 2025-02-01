@@ -47,7 +47,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Built with React and Docker
 - Styled with Tailwind CSS
-- Deployed using Docker Desktop
+- Locally developed with choice IDE along with Docker Desktop
 
 ---
 
