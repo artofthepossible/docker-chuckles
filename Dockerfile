@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Build stage
-FROM node:18-alpine AS builder
+FROM node:23-alpine AS builder
 
 WORKDIR /app
 
@@ -11,6 +11,9 @@ RUN apk add --no-cache python3 make g++
 # Copy package files
 COPY package*.json ./
 RUN npm install
+
+# Install dotenv package
+RUN npm install dotenv
 
 # Set build environment variables directly instead of using .env file
 ENV SKIP_PREFLIGHT_CHECK=true \
@@ -32,13 +35,17 @@ RUN NODE_ENV=production npm run build
 RUN echo "Build directory contents:" && ls -la build/
 
 # Production stage
-FROM node:18-alpine AS production
+#FROM node:18-alpine AS production
+FROM node:23-alpine AS production
 
 WORKDIR /app
 
 # Copy package files and install production dependencies
 COPY package*.json ./
 RUN npm install --omit=dev
+
+# Install dotenv package
+RUN npm install dotenv
 
 # Copy build artifacts and server files
 COPY --from=builder /app/build ./build

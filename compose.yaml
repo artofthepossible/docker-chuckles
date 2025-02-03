@@ -50,10 +50,10 @@ services:
       - NODE_ENV=production
       - PORT=3001
       - REDIS_URL=redis
-      - POSTGRES_HOST=postgres
-      - POSTGRES_DB=jokes
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST=${DATABASE_HOST}
+      - POSTGRES_DB=${DATABASE_NAME}
+      - POSTGRES_USER=${DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
     depends_on:
       redis:
         condition: service_healthy
