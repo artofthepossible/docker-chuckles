@@ -1,5 +1,16 @@
+import dotenv from 'dotenv';
 import pg from 'pg';
 const { Pool } = pg;
+
+// Load environment variables from .env file
+dotenv.config();
+
+const pool = new Pool({
+  host: process.env.POSTGRES_HOST,
+  database: process.env.POSTGRES_DB,
+  user: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+});
 
 const jokes = [
   { setup: 'What did the container say to the other container?', punchline: 'You are always so full of yourself!' },
@@ -54,13 +65,6 @@ const jokes = [
 ];
 
 async function seedDatabase() {
-  const pool = new Pool({
-    host: process.env.POSTGRES_HOST,
-    database: process.env.POSTGRES_DB,
-    user: process.env.POSTGRES_USER,
-    password: process.env.POSTGRES_PASSWORD,
-  });
-
   try {
     await pool.query(`
       CREATE TABLE IF NOT EXISTS jokes (
@@ -86,4 +90,4 @@ async function seedDatabase() {
   }
 }
 
-export default seedDatabase; 
+export default seedDatabase;
