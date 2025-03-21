@@ -36,8 +36,8 @@ RUN echo "Build directory contents:" && ls -la build/
 
 # Production stage
 #FROM node:23-alpine AS production
-#FROM node:23.10.0-alpine3.21 AS production
-FROM node:23.10.0-slim AS production
+FROM node:23.10.0-alpine3.21 AS production
+#FROM node:23.10.0-slim AS production
 
 
 WORKDIR /app
