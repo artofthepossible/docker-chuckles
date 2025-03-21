@@ -35,7 +35,8 @@ RUN NODE_ENV=production npm run build
 RUN echo "Build directory contents:" && ls -la build/
 
 # Production stage
-FROM node:23-alpine AS production
+#FROM node:23-alpine AS production
+FROM node:23.10.0-alpine3.21 AS production
 
 WORKDIR /app
 
