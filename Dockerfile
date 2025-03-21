@@ -35,10 +35,12 @@ RUN NODE_ENV=production npm run build
 RUN echo "Build directory contents:" && ls -la build/
 
 # Production stage
-#FROM node:18-alpine AS production
 FROM node:23-alpine AS production
 
 WORKDIR /app
+
+# Create a non-root user and group
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 # Copy package files and install production dependencies
 COPY package*.json ./
@@ -58,6 +60,9 @@ RUN echo "Build directory:" && ls -la build/
 
 ENV NODE_ENV=production
 ENV PORT=3001
+
+# Switch to the non-root user
+USER appuser
 
 EXPOSE 3001
 
