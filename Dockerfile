@@ -1,8 +1,9 @@
-# syntax=docker/dockerfile:1
+# syntax=docker/dockerfile:1.4
 
 # Build stage
-FROM node:23-alpine AS builder
-
+#FROM node:23-alpine AS builder
+#FROM demonstrationorg/dhi-temurin:23.0-alpine3.21-dev_chucklesdev AS builder
+FROM demonstrationorg/dhi-temurin:23.0-alpine3.21-dev_chucklesdev AS builder
 WORKDIR /app
 
 # Install build dependencies
@@ -15,10 +16,26 @@ RUN npm install
 # Install dotenv package
 RUN npm install dotenv
 
+# Install missing Babel plugin
+RUN npm install --save-dev @babel/plugin-proposal-private-property-in-object
+
+# Install complete Babel preset for React
+RUN npm install --save-dev @babel/preset-react @babel/plugin-proposal-private-property-in-object
+
+# Install all Babel dependencies at once
+RUN npm install --save-dev \
+    @babel/core \
+    @babel/preset-env \
+    @babel/preset-react \
+    @babel/plugin-proposal-private-property-in-object \
+    @babel/plugin-transform-private-property-in-object \
+    babel-preset-react-app
+
 # Set build environment variables directly instead of using .env file
 ENV SKIP_PREFLIGHT_CHECK=true \
     DISABLE_ESLINT_PLUGIN=true \
-    CI=false
+    CI=false \
+    BABEL_DISABLE_CACHE=1
 
 # Copy source files
 COPY public ./public
@@ -31,19 +48,23 @@ RUN ls -la
 # Build React app with verbose logging
 RUN NODE_ENV=production npm run build
 
+# Clear any existing babel cache and build
+RUN npm run build --verbose
+
 # Verify build
 RUN echo "Build directory contents:" && ls -la build/
 
 # Production stage
 #FROM node:23-alpine AS production
-FROM node:23.10.0-alpine3.21 AS production
+#FROM node:23.10.0-alpine3.21 AS production
 #FROM node:23.10.0-slim AS production
+FROM demonstrationorg/dhi-temurin:23.0-alpine3.21-dev_chucklesdev AS production
 
 
 WORKDIR /app
 
 # Create a non-root user and group
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+#RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 # Copy package files and install production dependencies
 COPY package*.json ./

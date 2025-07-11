@@ -12,18 +12,18 @@
   "dependencies": {
     "axios": "^1.8.2",
     "express": "^4.18.2",
-    "pg": "^8.11.3",
     "ioredis": "^5.3.2",
+    "nth-check": "^2.0.1",
+    "pg": "^8.11.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "nth-check": "^2.0.1"
+    "react-scripts": "5.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.23.9",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/preset-env": "^7.23.9",
-    "@babel/preset-react": "^7.23.9",
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@babel/preset-react": "^7.23.9"
   },
   "browserslist": {
     "production": [
